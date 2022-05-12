@@ -10,6 +10,7 @@ cd $PROJECT_PATH
 # Initialise a git repository
 
 git init
+git checkout -b main
 
 # Create a virtual environment using python venv and activate it
 
@@ -31,4 +32,5 @@ pip freeze > requirements.txt
 
 # Make the first git commit
 
+git add .gitignore requirements.txt
 git commit -am 'Initial commit'
