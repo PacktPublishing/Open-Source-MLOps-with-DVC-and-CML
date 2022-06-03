@@ -1,7 +1,4 @@
 
-# Define the project folder you used in Chapter 1
-
-PROJECT_PATH=~/Documents/my_project
 S3_BUCKET=s3://os-mlops-dvc
 
 # Make the folder
