@@ -1,6 +1,3 @@
-# Define the project folder we will use for Chapter 1
-
-PROJECT_PATH=~/Documents/my_project
 
 cd $PROJECT_PATH
 
