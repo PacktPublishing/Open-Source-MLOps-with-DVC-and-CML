@@ -1,6 +1,6 @@
 # Define the project folder we will use for Chapter 1
 
-PROJECT_PATH=~/Documents/mantis/books/os-mlops-dvc
+PROJECT_PATH=~/Documents/my_project
 
 # Make the folder
 
