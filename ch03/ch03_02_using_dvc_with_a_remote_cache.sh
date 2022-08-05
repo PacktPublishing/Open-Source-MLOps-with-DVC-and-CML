@@ -18,7 +18,7 @@ tree -s ./dvc/cache
 
 # Check what files are in the remote
 
-aws s3 ls s3://$S3_BUCKET/
+aws s3 ls $S3_BUCKET
 
 # Push data from _all_ commits.
 
@@ -26,4 +26,9 @@ dvc push --all-commits
 
 # Check again what files are in the remote.
 
-aws s3 ls s3://$S3_BUCKET/
+aws s3 ls $S3_BUCKET
+
+# Update our requirements file
+
+pip freeze > requirements.txt
+git commit -m "ch03 02 Use DVC with remote cache" requirements.txt

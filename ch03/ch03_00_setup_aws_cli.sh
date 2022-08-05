@@ -17,3 +17,8 @@ pip install awscli
 # needing to add --profile my_profile to every command.
 
 export AWS_PROFILE=packt
+
+# Add awscli to requirements.txt and commit to git
+
+pip freeze > requirements.txt
+git commit -m 'ch03 00 Set up aws cli' requirements.txt

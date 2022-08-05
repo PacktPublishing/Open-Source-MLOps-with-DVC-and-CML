@@ -1,11 +1,8 @@
 
-# Navigate to the project folder
+# Navigate to the project folder and activate the virtual environment
 
 cd $PROJECT_PATH
-
-# Activate the virtual environment
-
-source venv/bin/activate
+source $PROJECT_PATH/venv/bin/activate
 
 # What happens when we delete the data from ./data?
 
@@ -39,9 +36,4 @@ dvc pull
 tree data
 tree .dvc/cache
 
-# Finally let's update our virtual environment since we installed awscli and 
-# dvc[s3] in this chapter.
-
-pip freeze > requirements.txt
-git add requirements.txt
-git commit -m 'Update dependencies'
+# We don't need to commit anything here, as we didn't make any changes.
