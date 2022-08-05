@@ -1,5 +1,6 @@
 
 cd $PROJECT_PATH
+source $PROJECT_PATH/venv/bin/activate
 
 # Create a new branch
 
@@ -23,7 +24,7 @@ dvc add data/IMDB_movie_ratings_sentiment.csv
 
 cat data/IMDB_movie_ratings_sentiment.csv.dvc
 
-git commit data/IMDB_movie_ratings_sentiment.csv.dvc -m 'Update data file'
+git commit data/IMDB_movie_ratings_sentiment.csv.dvc -m 'ch2 02 Update IMDB data'
 
 
 echo "*** Reverting changes to original version ***"

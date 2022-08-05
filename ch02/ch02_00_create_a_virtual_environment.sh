@@ -33,4 +33,4 @@ pip freeze > requirements.txt
 # Make the first git commit
 
 git add .gitignore requirements.txt
-git commit -am 'Initial commit'
+git commit -am 'ch2 00 Create a Virtuale Environment'

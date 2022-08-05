@@ -30,7 +30,7 @@ git add data/IMDB_movie_ratings_sentiment.csv.dvc data/.gitignore
 
 # Let's commit both of these new files to Git
 
-git commit -m "Add raw data to dvc"
+git commit -m "ch2 01 Add raw data to DVC"
 
 # Finally we delete the zip file, which we no longer need.
 
