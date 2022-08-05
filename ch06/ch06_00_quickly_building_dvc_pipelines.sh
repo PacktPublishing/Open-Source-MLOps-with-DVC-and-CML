@@ -1,44 +1,24 @@
+#   ch06_00_quickly_building_dvc_pipelines.sh
+#   
+#   In this script we will create a simple machine learning pipeline based on 
+#   the example given here: <Del>
+#
+#
 
-# Use existing virtualenv (just to get access to dvc)
+# Navigate to the project folder
+
+# Copy the files we need to the project folder
+
+cp train_sklearn.py $PROJECT_PATH
+
+cd $PROJECT_PATH
+
+# Activate the virtual environment
 
 source $PROJECT_PATH/venv/bin/activate
 
-gh repo create \
-    –license MIT \
-    –public $GITHUB_USER/$PROJECT_NAME-registry
+# Install dependencies required for machine learning example
 
-gh repo clone $GITHUB_USER/$PROJECT_NAME-registry
+pip install sklearn
 
-cd $PROJECT_NAME-registry
-
-dvc init
-
-git commit .dvc .dvcignore -m 'dvc init'
-
-mkdir -p data
-
-curl -L https://github.com/PacktPublishing/Open-Source-MLOPs-with-DVC-and-CML/blob/ce1fd2e5205b92d8c16e449e3fb2a67f380b6dde/ch1/IMDB_movie_ratings_sentiment.zip?raw=true > ./IMDB_movie_ratings_sentiment.zip
-
-unzip IMDB_movie_ratings_sentiment.zip -d ./data
-
-dvc add data/IMDB_movie_ratings_sentiment.csv
-
-git add data/IMDB_movie_ratings_sentiment.csv.dvc data/.gitignore
-
-rm IMDB_movie_ratings_sentiment.zip
-
-git commit -m 'Add raw data to dvc'
-
-git push
-
-aws s3 mb s3://$S3_bucket-registry
-
-dvc remote add --default s3 s3://$S3_BUCKET-registry 
-
-git add .dvc/config 
-
-git commit -m 'Add remote cache'
-
-git push
-
-dvc push
+pip freeze > requirements.txt

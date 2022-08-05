@@ -1,13 +1,9 @@
 
-S3_BUCKET=s3://os-mlops-dvc
-
-# Make the folder
+# Navigate the the folder and activate the virtual environment
 
 cd $PROJECT_PATH
+source $PROJECT_PATH/venv/bin/activate
 
-# Activate the virtual environment
-
-source venv/bin/activate
 pip install awscli
 
 # Now configure your account credentials with. This is commented out

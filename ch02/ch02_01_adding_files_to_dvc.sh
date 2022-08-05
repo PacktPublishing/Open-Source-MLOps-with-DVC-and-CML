@@ -1,7 +1,10 @@
 
-cd $PROJECT_PATH
+# Navigate to folder and activate the virtual environment
 
-# Download the zipped data from github using curl. You can also use another
+cd $PROJECT_PATH
+source $PROJECT_PATH/venv/bin/activate
+
+# Download the zipped data from GitHub using curl. You can also use another
 # tool or follow the link to do this manually.
 
 curl -L https://github.com/PacktPublishing/Open-Source-MLOPs-with-DVC-and-CML/blob/ce1fd2e5205b92d8c16e449e3fb2a67f380b6dde/ch1/IMDB_movie_ratings_sentiment.zip?raw=true > $PROJECT_PATH/IMDB_movie_ratings_sentiment.zip

@@ -1,11 +1,20 @@
-
-# Use existing virtualenv (just to get access to dvc)
+# Variables that need to be exported into your environment for this script to
+# run:
+#
+# AWS_PROFILE=default
+# S3_BUCKET=s3://my-bucket
+# PROJECT_PATH=/path/to/project
+# PROJECT_NAME=os-mlops-dvc
+# GITHUB_USER=ivyleavedtoadflax
+#
+# Values are provided as examples, and should be set according to the
+# configuration on your individual machine.
 
 source $PROJECT_PATH/venv/bin/activate
 
 gh repo create \
-    –license MIT \
-    –public $GITHUB_USER/$PROJECT_NAME-registry
+    -–license MIT \
+    -–public $GITHUB_USER/$PROJECT_NAME-registry
 
 gh repo clone $GITHUB_USER/$PROJECT_NAME-registry
 
