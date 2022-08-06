@@ -1,0 +1,11 @@
+schema: '2.0'
+stages:
+  train:
+    cmd: python train_sklearn.py
+    deps:
+    - path: data/IMDB_movie_ratings_sentiment.csv
+      md5: 6efb5da809df99140316dd09dbb42078
+      size: 52724248
+    - path: train_sklearn.py
+      md5: 0171c099eb0a1afc563dbbbcdd54bba1
+      size: 3008

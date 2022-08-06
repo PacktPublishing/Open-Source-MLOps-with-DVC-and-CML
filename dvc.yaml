@@ -1,0 +1,6 @@
+stages:
+  train:
+    cmd: python train_sklearn.py
+    deps:
+    - data/IMDB_movie_ratings_sentiment.csv
+    - train_sklearn.py
