@@ -5,6 +5,7 @@ https://medium.com/mantisnlp/mlops-with-sagemaker-44ffc2c1054a
 
 import csv
 import os
+import joblib
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import SGDClassifier
@@ -25,6 +26,7 @@ def load_data(split_data_path):
 
 def train(
         data: dict,
+        model_path: str="models/model.joblib",
         min_df: int = 5,
         max_df: float = 0.5,
         max_ngrams: int = 1,
@@ -72,6 +74,9 @@ def train(
     score = model.score(data["X_test"], data["y_test"])
 
     print(f"Model score {score}")
+    print(f"Saving model to {model_path}")
+    
+    joblib.dump(model, model_path)
 
 
 if __name__ == "__main__":

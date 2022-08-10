@@ -9,8 +9,13 @@ flowchart TD
 	node3["data/processed/X_train.txt"]
 	node4["data/processed/y_test.txt"]
 	node5["data/processed/y_train.txt"]
+	node6["models/model.joblib"]
 	node1-->node2
 	node1-->node3
 	node1-->node4
 	node1-->node5
+	node2-->node6
+	node3-->node6
+	node4-->node6
+	node5-->node6
 ```
