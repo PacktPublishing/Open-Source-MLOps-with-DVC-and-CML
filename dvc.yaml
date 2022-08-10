@@ -2,5 +2,18 @@ stages:
   train:
     cmd: python train_sklearn.py
     deps:
-    - data/IMDB_movie_ratings_sentiment.csv
+    - data/processed/X_test.txt
+    - data/processed/X_train.txt
+    - data/processed/y_test.txt
+    - data/processed/y_train.txt
     - train_sklearn.py
+  process_data:
+    cmd: python process_data.py
+    deps:
+    - data/IMDB_movie_ratings_sentiment.csv
+    - process_data.py
+    outs:
+    - data/processed/X_test.txt
+    - data/processed/X_train.txt
+    - data/processed/y_test.txt
+    - data/processed/y_train.txt
