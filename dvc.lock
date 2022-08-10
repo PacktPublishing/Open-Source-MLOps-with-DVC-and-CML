@@ -16,12 +16,15 @@ stages:
       md5: de27b5ddd1c3575a2a338bd29e222a58
       size: 64000
     - path: train_sklearn.py
-      md5: 6afea56acf2d412e0a5506599f4cafe0
-      size: 2523
+      md5: 86aec64d2a3adee9c5cbc1ad5ea06b00
+      size: 2710
     outs:
     - path: models/model.joblib
-      md5: 1cc4dfc769d6f61d6ea3e836567d2e38
+      md5: 254e866bd34d1050c76ad065aa68bff6
       size: 1701264
+    - path: results/metrics.json
+      md5: 1681070380bd9eacfe8526258d0d12bb
+      size: 19
   process_data:
     cmd: python process_data.py
     deps:
