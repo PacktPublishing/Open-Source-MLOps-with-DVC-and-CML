@@ -7,10 +7,15 @@ import csv
 import os
 import joblib
 import json
+import dvc.api
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import SGDClassifier
 from sklearn.pipeline import Pipeline
+
+# Load params
+
+params = dvc.api.params_show()
 
 def load_data(split_data_path):
     """
@@ -29,13 +34,12 @@ def train(
         data: dict,
         model_path: str="models/model.joblib",
         metrics_path: str="results/metrics.json",
-        min_df: int = 5,
-        max_df: float = 0.5,
-        max_ngrams: int = 1,
-        stopwords: str="english",
-        loss: str="hinge",
-        learning_rate: float = 1e-4,
-        test_size: float = 0.2,
+        min_df: int=params["train"]["min_df"],
+        max_df: float=params["train"]["max_df"],
+        max_ngrams: int=params["train"]["max_ngrams"],
+        stopwords: str=params["train"]["stopwords"],
+        loss: str=params["train"]["loss"],
+        learning_rate: float=params["train"]["learning_rate"],
 ):
     """
     Trains the model and reports metrics to stdout
@@ -53,7 +57,6 @@ def train(
         stopwords: list of stopwords to be used.
         loss: loss function to be used.
         learning_rate: learning rate for the SGDClassifier.
-        test_size: proportion of the data to be used for testing.
     """
 
     model = Pipeline(

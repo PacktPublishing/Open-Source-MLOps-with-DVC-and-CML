@@ -7,43 +7,56 @@ stages:
       md5: 6efb5da809df99140316dd09dbb42078
       size: 52724248
     - path: process_data.py
-      md5: fe498c9818527b62f0e89f312a0683bb
-      size: 1623
+      md5: 9888ac7e32d500b34c167af0a77d6a58
+      size: 1751
+    params:
+      params.yaml:
+        process:
+          test_size: 0.2
     outs:
     - path: data/processed/X_test.txt
-      md5: 747e635c34d464e43cfc7d45b10eb111
-      size: 10547257
+      md5: bc95152a49f8d48db2c8e4af85930097
+      size: 10384978
     - path: data/processed/X_train.txt
-      md5: 59bd2dbeaa44217066db6c7f16898155
-      size: 41913866
+      md5: 5600a8ef51746090db569341bdda5449
+      size: 42076145
     - path: data/processed/y_test.txt
-      md5: 3d3265ecb72bdbee776b46ba6daa7efa
+      md5: 6da9fd7aa437a2194ea353fa12f2d4e7
       size: 16000
     - path: data/processed/y_train.txt
-      md5: d2b57ef592571b5d810fb99fa3d41f34
+      md5: 66cf99fd38029bdfeb958eec36d00838
       size: 64000
   train:
     cmd: python3 train_sklearn.py
     deps:
     - path: data/processed/X_test.txt
-      md5: 747e635c34d464e43cfc7d45b10eb111
-      size: 10547257
+      md5: bc95152a49f8d48db2c8e4af85930097
+      size: 10384978
     - path: data/processed/X_train.txt
-      md5: 59bd2dbeaa44217066db6c7f16898155
-      size: 41913866
+      md5: 5600a8ef51746090db569341bdda5449
+      size: 42076145
     - path: data/processed/y_test.txt
-      md5: 3d3265ecb72bdbee776b46ba6daa7efa
+      md5: 6da9fd7aa437a2194ea353fa12f2d4e7
       size: 16000
     - path: data/processed/y_train.txt
-      md5: d2b57ef592571b5d810fb99fa3d41f34
+      md5: 66cf99fd38029bdfeb958eec36d00838
       size: 64000
     - path: train_sklearn.py
-      md5: 861a998e60228d656e862817d5e33cbe
-      size: 2753
+      md5: 02dc42e26f9c3016974e64bedb27d2dd
+      size: 2803
+    params:
+      params.yaml:
+        train:
+          min_df: 5
+          max_df: 0.5
+          max_ngrams: 1
+          stopwords: english
+          loss: hinge
+          learning_rate: 0.0001
     outs:
     - path: models/model.joblib
-      md5: 4779bb443094a6a2a769f0e304e45d3c
-      size: 1704839
+      md5: 2ce847c9c5c6a188a0e1a8a1aa3df798
+      size: 1703368
     - path: results/metrics.json
-      md5: db2d7e2f65ef4163a1bf6d2abe174625
+      md5: 7c49427c43a2a690206c9b378c8101f1
       size: 19

@@ -5,8 +5,13 @@ Simple script to create train and test splits
 
 import csv
 import os
+import dvc.api
 
 from sklearn.model_selection import train_test_split
+
+# Load params
+
+params = dvc.api.params_show()
 
 
 def prepare_data(data_path: str, test_size: float):
@@ -48,5 +53,9 @@ def save_data(output_path: str, **kwargs):
                 f.write(item + "\n")
 
 if __name__ == "__main__":
-    X_train, X_test, y_train, y_test = prepare_data(data_path="data/IMDB_movie_ratings_sentiment.csv", test_size=0.2)
+    X_train, X_test, y_train, y_test = prepare_data(
+            data_path="data/IMDB_movie_ratings_sentiment.csv",
+            test_size=params["process"]["test_size"]
+            )
+
     save_data(output_path="data/processed/", X_train=X_train, X_test=X_test, y_train=y_train, y_test=y_test)

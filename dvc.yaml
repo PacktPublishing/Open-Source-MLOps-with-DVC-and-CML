@@ -1,4 +1,16 @@
 stages:
+  process_data:
+    cmd: python3 process_data.py
+    deps:
+    - data/IMDB_movie_ratings_sentiment.csv
+    - process_data.py
+    params:
+    - process
+    outs:
+    - data/processed/X_test.txt
+    - data/processed/X_train.txt
+    - data/processed/y_test.txt
+    - data/processed/y_train.txt
   train:
     cmd: python3 train_sklearn.py
     deps:
@@ -7,17 +19,9 @@ stages:
     - data/processed/y_test.txt
     - data/processed/y_train.txt
     - train_sklearn.py
-    outs :
+    params:
+    - train
+    outs:
     - models/model.joblib
     metrics:
     - results/metrics.json
-  process_data:
-    cmd: python3 process_data.py
-    deps:
-    - data/IMDB_movie_ratings_sentiment.csv
-    - process_data.py
-    outs:
-    - data/processed/X_test.txt
-    - data/processed/X_train.txt
-    - data/processed/y_test.txt
-    - data/processed/y_train.txt
