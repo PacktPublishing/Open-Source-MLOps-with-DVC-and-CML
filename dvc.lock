@@ -1,27 +1,5 @@
 schema: '2.0'
 stages:
-  train:
-    cmd: python3 train_sklearn.py
-    deps:
-    - path: data/processed/X_test.txt
-      md5: 747e635c34d464e43cfc7d45b10eb111
-      size: 10547257
-    - path: data/processed/X_train.txt
-      md5: 59bd2dbeaa44217066db6c7f16898155
-      size: 41913866
-    - path: data/processed/y_test.txt
-      md5: 3d3265ecb72bdbee776b46ba6daa7efa
-      size: 16000
-    - path: data/processed/y_train.txt
-      md5: d2b57ef592571b5d810fb99fa3d41f34
-      size: 64000
-    - path: train_sklearn.py
-      md5: b75120af5447e47ca998fb115e4933c1
-      size: 2564
-    outs:
-    - path: models/model.joblib
-      md5: a509adefddc33cbdf4d556e13bb5d993
-      size: 1704839
   process_data:
     cmd: python3 process_data.py
     deps:
@@ -44,3 +22,28 @@ stages:
     - path: data/processed/y_train.txt
       md5: d2b57ef592571b5d810fb99fa3d41f34
       size: 64000
+  train:
+    cmd: python3 train_sklearn.py
+    deps:
+    - path: data/processed/X_test.txt
+      md5: 747e635c34d464e43cfc7d45b10eb111
+      size: 10547257
+    - path: data/processed/X_train.txt
+      md5: 59bd2dbeaa44217066db6c7f16898155
+      size: 41913866
+    - path: data/processed/y_test.txt
+      md5: 3d3265ecb72bdbee776b46ba6daa7efa
+      size: 16000
+    - path: data/processed/y_train.txt
+      md5: d2b57ef592571b5d810fb99fa3d41f34
+      size: 64000
+    - path: train_sklearn.py
+      md5: 861a998e60228d656e862817d5e33cbe
+      size: 2753
+    outs:
+    - path: models/model.joblib
+      md5: 4779bb443094a6a2a769f0e304e45d3c
+      size: 1704839
+    - path: results/metrics.json
+      md5: db2d7e2f65ef4163a1bf6d2abe174625
+      size: 19

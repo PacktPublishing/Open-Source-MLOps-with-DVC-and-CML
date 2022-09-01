@@ -9,6 +9,8 @@ stages:
     - train_sklearn.py
     outs :
     - models/model.joblib
+    metrics:
+    - results/metrics.json
   process_data:
     cmd: python3 process_data.py
     deps:
