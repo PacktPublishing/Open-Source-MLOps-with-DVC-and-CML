@@ -16,8 +16,12 @@ stages:
       md5: d2b57ef592571b5d810fb99fa3d41f34
       size: 64000
     - path: train_sklearn.py
-      md5: fe454d32e7464d30faac795f7d43e994
-      size: 2381
+      md5: b75120af5447e47ca998fb115e4933c1
+      size: 2564
+    outs:
+    - path: models/model.joblib
+      md5: a509adefddc33cbdf4d556e13bb5d993
+      size: 1704839
   process_data:
     cmd: python3 process_data.py
     deps:

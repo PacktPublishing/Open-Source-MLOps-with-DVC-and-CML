@@ -5,6 +5,7 @@ https://medium.com/mantisnlp/mlops-with-sagemaker-44ffc2c1054a
 
 import csv
 import os
+import joblib
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import SGDClassifier
@@ -25,6 +26,7 @@ def load_data(split_data_path):
 
 def train(
         data: dict,
+        model_path: str="models/model.joblib",
         min_df: int = 5,
         max_df: float = 0.5,
         max_ngrams: int = 1,
@@ -38,6 +40,7 @@ def train(
 
     Args:
         data: dict containing train and test split data
+        model_path: path to save the model
         min_df: minimum number of documents a token must be found in for it to
             be included. Can be either an integer of actual documents or a
             float of the proportion of total documents.
@@ -72,6 +75,9 @@ def train(
     score = model.score(data["X_test"], data["y_test"])
 
     print(f"Model score {score}")
+    print(f"Saving model to {model_path}")
+    joblib.dump(model, model_path)
+
 
 
 if __name__ == "__main__":
