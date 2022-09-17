@@ -3,9 +3,40 @@ stages:
   train:
     cmd: python3 train_sklearn.py
     deps:
+    - path: data/processed/X_test.txt
+      md5: 747e635c34d464e43cfc7d45b10eb111
+      size: 10547257
+    - path: data/processed/X_train.txt
+      md5: 59bd2dbeaa44217066db6c7f16898155
+      size: 41913866
+    - path: data/processed/y_test.txt
+      md5: 3d3265ecb72bdbee776b46ba6daa7efa
+      size: 16000
+    - path: data/processed/y_train.txt
+      md5: d2b57ef592571b5d810fb99fa3d41f34
+      size: 64000
+    - path: train_sklearn.py
+      md5: fe454d32e7464d30faac795f7d43e994
+      size: 2381
+  process_data:
+    cmd: python3 process_data.py
+    deps:
     - path: data/IMDB_movie_ratings_sentiment.csv
       md5: 6efb5da809df99140316dd09dbb42078
       size: 52724248
-    - path: train_sklearn.py
-      md5: d8fece5547f30c0a134fb973bcbe44bc
-      size: 3008
+    - path: process_data.py
+      md5: fe498c9818527b62f0e89f312a0683bb
+      size: 1623
+    outs:
+    - path: data/processed/X_test.txt
+      md5: 747e635c34d464e43cfc7d45b10eb111
+      size: 10547257
+    - path: data/processed/X_train.txt
+      md5: 59bd2dbeaa44217066db6c7f16898155
+      size: 41913866
+    - path: data/processed/y_test.txt
+      md5: 3d3265ecb72bdbee776b46ba6daa7efa
+      size: 16000
+    - path: data/processed/y_train.txt
+      md5: d2b57ef592571b5d810fb99fa3d41f34
+      size: 64000
