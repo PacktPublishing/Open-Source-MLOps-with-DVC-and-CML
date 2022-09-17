@@ -9,39 +9,22 @@ import os
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import SGDClassifier
 from sklearn.pipeline import Pipeline
-from sklearn.model_selection import train_test_split
 
-
-def prepare_data(data_path: str, test_size: float ):
+def load_data(split_data_path):
     """
-    A simple function to load the data from the csv file and split it into
-    training and testing sets.
-
-    Args:
-        data_path: path to the csv file containing the data.
-        test_size: proportion of the data to be used for testing.
+    Load the split data files and return lists
     """
-    data = []
-    print(f"Loading data from {data_path}")
-    with open(data_path, encoding="utf-8-sig") as f:
-        csvreader = csv.DictReader(f)
-        for row in csvreader:
-            data.append((row["text"], row["label"]))
-    X, y = zip(*data)
-    print(f"Loaded {len(X)} examples")
+    files = {"X_train": [], "X_test": [], "y_train": [], "y_test": []}
+    for k, v in files.items():
+        file_path = os.path.join(split_data_path, f"{k}.txt")
+        with open(file_path, "r") as f:
+            files[k] = f.readlines()
 
-    print("Splitting data into train and test sets")
-
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size)
-
-    print(f"Train set size: {len(X_train)}")
-    print(f"Test set size: {len(X_test)}")
-
-    return X_train, X_test, y_train, y_test
+    return files
 
 
 def train(
-        data_path: str,
+        data: dict,
         min_df: int = 5,
         max_df: float = 0.5,
         max_ngrams: int = 1,
@@ -54,7 +37,7 @@ def train(
     Trains the model and reports metrics to stdout
 
     Args:
-        data_path: path to the csv file containing the data
+        data: dict containing train and test split data
         min_df: minimum number of documents a token must be found in for it to
             be included. Can be either an integer of actual documents or a
             float of the proportion of total documents.
@@ -67,8 +50,6 @@ def train(
         learning_rate: learning rate for the SGDClassifier.
         test_size: proportion of the data to be used for testing.
     """
-
-    X_train, X_test, y_train, y_test = prepare_data(data_path, test_size=test_size)
 
     model = Pipeline(
         [
@@ -86,12 +67,13 @@ def train(
 
     print("Training SGDClassifier")
 
-    model.fit(X_train, y_train)
+    model.fit(data["X_train"], data["y_train"])
 
-    score = model.score(X_test, y_test)
+    score = model.score(data["X_test"], data["y_test"])
 
     print(f"Model score {score}")
 
 
 if __name__ == "__main__":
-    train(data_path="data/IMDB_movie_ratings_sentiment.csv")
+    split_data = load_data("data/processed/")
+    train(data=split_data)
