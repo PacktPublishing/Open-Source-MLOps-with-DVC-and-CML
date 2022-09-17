@@ -7,6 +7,8 @@ stages:
     - data/processed/y_test.txt
     - data/processed/y_train.txt
     - train_sklearn.py
+    outs :
+    - models/model.joblib
   process_data:
     cmd: python3 process_data.py
     deps:
