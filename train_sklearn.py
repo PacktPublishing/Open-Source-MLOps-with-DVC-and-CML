@@ -7,17 +7,19 @@ import csv
 import os
 import joblib
 import json
-import dvc.api
+import typer
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import SGDClassifier
 from sklearn.pipeline import Pipeline
 
+# Create typer app
+
+app = typer.Typer()
+
 # Load params
 
-params = dvc.api.params_show()
-
-def load_data(split_data_path):
+def load_data(split_data_path: str):
     """
     Load the split data files and return lists
     """
@@ -30,22 +32,24 @@ def load_data(split_data_path):
     return files
 
 
+@app.command()
 def train(
-        data: dict,
-        model_path: str="models/model.joblib",
-        metrics_path: str="results/metrics.json",
-        min_df: int=params["train"]["min_df"],
-        max_df: float=params["train"]["max_df"],
-        max_ngrams: int=params["train"]["max_ngrams"],
-        stopwords: str=params["train"]["stopwords"],
-        loss: str=params["train"]["loss"],
-        learning_rate: float=params["train"]["learning_rate"],
+        split_data_path: str = typer.Option(...),
+        model_path: str = typer.Option(...),
+        metrics_path: str = typer.Option(...),
+        min_df: int = typer.Option(...),
+        max_df: float = typer.Option(...),
+        max_ngrams: int = typer.Option(...),
+        stopwords: str = typer.Option(...),
+        loss: str = typer.Option(...),
+        learning_rate: float = typer.Option(...),
 ):
     """
     Trains the model and reports metrics to stdout
 
     Args:
         data: dict containing train and test split data
+        split_data_path (str): Path to the split data
         model_path: path to save the model
         min_df: minimum number of documents a token must be found in for it to
             be included. Can be either an integer of actual documents or a
@@ -58,6 +62,8 @@ def train(
         loss: loss function to be used.
         learning_rate: learning rate for the SGDClassifier.
     """
+
+    data = load_data(split_data_path)
 
     model = Pipeline(
         [
@@ -91,5 +97,4 @@ def train(
 
 
 if __name__ == "__main__":
-    split_data = load_data("data/processed/")
-    train(data=split_data)
+    app()

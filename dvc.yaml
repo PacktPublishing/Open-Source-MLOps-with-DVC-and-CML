@@ -12,7 +12,17 @@ stages:
     - data/processed/y_test.txt
     - data/processed/y_train.txt
   train:
-    cmd: python3 train_sklearn.py
+    cmd: >-
+      python3 train_sklearn.py
+      --split-data-path ./data/processed
+      --model-path ./models/model.joblib
+      --metrics-path ./results/metrics.json
+      --min-df ${train.min_df}
+      --max-df ${train.max_df}
+      --max-ngrams ${train.max_ngrams}
+      --stopwords ${train.stopwords}
+      --loss ${train.loss}
+      --learning-rate ${train.learning_rate}
     deps:
     - data/processed/X_test.txt
     - data/processed/X_train.txt
