@@ -83,14 +83,6 @@ def train(
 
     model.fit(data["X_train"], data["y_train"])
 
-    score = model.score(data["X_test"], data["y_test"])
-
-    print(f"Model score {score}")
-    print(f"Saving metrics to {metrics_path}")
-
-    with open(metrics_path, "w") as f:
-        json.dump({"score": score}, f)
-
     print(f"Saving model to {model_path}")
     joblib.dump(model, model_path)
 

@@ -14,9 +14,9 @@ stages:
   train:
     cmd: >-
       python3 train_sklearn.py
-      --split-data-path ./data/processed
-      --model-path ./models/model.joblib
-      --metrics-path ./results/metrics.json
+      --split-data-path data/processed
+      --model-path models/model.joblib
+      --metrics-path results/metrics.json
       --min-df ${train.min_df}
       --max-df ${train.max_df}
       --max-ngrams ${train.max_ngrams}
@@ -33,5 +33,35 @@ stages:
     - train
     outs:
     - models/model.joblib
-    metrics:
-    - results/metrics.json
+  predict:
+    foreach:
+      - train
+      - test
+    do:
+      cmd: >-
+        python3 predict.py
+        --model-path models/model.joblib
+        --data-path data/processed/X_${item}.txt
+        --pred-path data/predictions/y_${item}_pred.txt
+      deps:
+      - data/processed/X_${item}.txt
+      - models/model.joblib
+      - predict.py
+      outs:
+      - data/predictions/y_${item}_pred.txt
+  evaluate:
+    foreach:
+      - train
+      - test
+    do:
+      cmd: >-
+        python3 evaluate.py
+        --pred-path data/predictions/y_${item}_pred.txt
+        --true-path data/processed/y_${item}.txt
+        --metrics-path results/${item}_metrics.json
+      deps:
+      - data/predictions/y_${item}_pred.txt
+      - data/processed/y_${item}.txt
+      - evaluate.py
+      metrics:
+      - results/${item}_metrics.json
