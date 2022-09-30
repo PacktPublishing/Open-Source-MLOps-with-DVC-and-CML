@@ -127,7 +127,24 @@ stages:
     - path: results/train_metrics.json
       md5: 690fd6a8cd949068da0f55c8cbf4129d
       size: 689
-  confusion:
+  confusion@train:
+    cmd: python3 concatenate.py --true-labels data/processed/y_train.txt --predicted-labels
+      data/predictions/y_train_pred.txt --output-path data/predictions/train_confusion.csv
+    deps:
+    - path: concatenate.py
+      md5: f8e74b4cecb63494a7001f3eb5b7f7a4
+      size: 896
+    - path: data/predictions/y_train_pred.txt
+      md5: 1d0a6b92df7e1ff431cffb94366a4e37
+      size: 64000
+    - path: data/processed/y_train.txt
+      md5: 268cd55a39fe327418f03e051a0b023f
+      size: 64000
+    outs:
+    - path: data/predictions/train_confusion.csv
+      md5: 465aa17e3b2e1b227a1b0a361177dea8
+      size: 128010
+  confusion@test:
     cmd: python3 concatenate.py --true-labels data/processed/y_test.txt --predicted-labels
       data/predictions/y_test_pred.txt --output-path data/predictions/test_confusion.csv
     deps:
