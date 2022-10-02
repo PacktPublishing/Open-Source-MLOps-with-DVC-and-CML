@@ -87,3 +87,17 @@ stages:
             x_label: "True class"
             y_label: "Predicted class"
             title: "${item} set confusion matrix"
+  histogram: 
+    cmd: >-
+      python3 review_lengths.py
+      --input-path data/IMDB_movie_ratings_sentiment.csv
+      --output-path data/processed/IMDB_review_lengths.csv
+    deps:
+      - review_lengths.py
+      - data/IMDB_movie_ratings_sentiment.csv
+    plots:
+      - data/processed/IMDB_review_lengths.csv:
+          template: histogram
+          x: "length"
+          x_label: "Review lengths"
+          title: "Histogram of review lengths"
