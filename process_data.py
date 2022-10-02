@@ -6,7 +6,12 @@ import csv
 import os
 
 import dvc.api
+import numpy as np
 from sklearn.model_selection import train_test_split
+
+# set seed for reproducibility
+
+np.random.seed(1337)
 
 # Load params
 

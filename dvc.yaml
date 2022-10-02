@@ -59,3 +59,21 @@ stages:
       - evaluate.py
       metrics:
       - results/${item}_metrics.json
+  confusion: 
+    cmd: >-
+      python3 concatenate.py
+      --true_labels data/processed/y_test.txt
+      --predicted_labels data/predictions/y_test_pred.txt
+      --output_path data/predictions/test_confusion.csv
+    deps:
+    - data/processed/y_test.txt 
+    - data/predictions/y_test_pred.txt
+    - concatenate.py
+    plots:
+    - data/predictions/test_confusion.csv:
+        x: "true"
+        y: "pred"
+        template: confusion
+        x_label: "True class"
+        y_label: "Predicted class"
+        title: "test set confusion matrix"
