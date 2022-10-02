@@ -161,3 +161,17 @@ stages:
     - path: data/predictions/train_confusion.csv
       md5: f6d505471de7ace5595b665be45ca3af
       size: 144010
+  histogram:
+    cmd: python3 review_lengths.py --input_path data/IMDB_movie_ratings_sentiment.csv
+      --output_path data/processed/IMDB_review_lengths.csv
+    deps:
+    - path: data/IMDB_movie_ratings_sentiment.csv
+      md5: 6efb5da809df99140316dd09dbb42078
+      size: 52724248
+    - path: review_lengths.py
+      md5: c90322c7bab27066cf8555b4d236ea51
+      size: 856
+    outs:
+    - path: data/processed/IMDB_review_lengths.csv
+      md5: e906659fa9d46aa331b17b41344466fd
+      size: 179466
