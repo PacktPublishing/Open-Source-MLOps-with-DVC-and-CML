@@ -15,115 +15,163 @@ stages:
           test_size: 0.2
     outs:
     - path: data/processed/X_test.txt
-      md5: bc95152a49f8d48db2c8e4af85930097
-      size: 10384978
+      md5: b73b36a8cc7253bf26465b9652cd9d72
+      size: 10595217
     - path: data/processed/X_train.txt
-      md5: 5600a8ef51746090db569341bdda5449
-      size: 42076145
+      md5: ce74ba9038f6f3a842c83b2d47cfe1e0
+      size: 41865906
     - path: data/processed/y_test.txt
-      md5: 6da9fd7aa437a2194ea353fa12f2d4e7
+      md5: 0fef078ce1e847bde2a6af1a5bda4f1c
       size: 16000
     - path: data/processed/y_train.txt
-      md5: 66cf99fd38029bdfeb958eec36d00838
+      md5: 268cd55a39fe327418f03e051a0b023f
       size: 64000
   train:
     cmd: python3 train_sklearn.py --split-data-path data/processed --model-path models/model.joblib
-      --metrics-path results/metrics.json --min-df 5 --max-df 0.5 --max-ngrams 2 --stopwords
+      --metrics-path results/metrics.json --min-df 5 --max-df 0.5 --max-ngrams 3 --stopwords
       english --loss hinge --learning-rate 0.0001
     deps:
     - path: data/processed/X_test.txt
-      md5: bc95152a49f8d48db2c8e4af85930097
-      size: 10384978
+      md5: b73b36a8cc7253bf26465b9652cd9d72
+      size: 10595217
     - path: data/processed/X_train.txt
-      md5: 5600a8ef51746090db569341bdda5449
-      size: 42076145
+      md5: ce74ba9038f6f3a842c83b2d47cfe1e0
+      size: 41865906
     - path: data/processed/y_test.txt
-      md5: 6da9fd7aa437a2194ea353fa12f2d4e7
+      md5: 0fef078ce1e847bde2a6af1a5bda4f1c
       size: 16000
     - path: data/processed/y_train.txt
-      md5: 66cf99fd38029bdfeb958eec36d00838
+      md5: 268cd55a39fe327418f03e051a0b023f
       size: 64000
     - path: train_sklearn.py
-      md5: d12285e4dc0987f59efae8dc626c35f6
-      size: 2563
+      md5: 364d54a511d4eceaf61a53d22c218264
+      size: 2662
     params:
       params.yaml:
         train:
           min_df: 5
           max_df: 0.5
-          max_ngrams: 2
+          max_ngrams: 3
           stopwords: english
           loss: hinge
           learning_rate: 0.0001
     outs:
     - path: models/model.joblib
-      md5: 1ec493e6fe7bb3a2156ee0cf8cf10c63
-      size: 38006406
-  predict@train:
-    cmd: python3 predict.py --model-path models/model.joblib --data-path data/processed/X_train.txt
-      --pred-path data/predictions/y_train_pred.txt
-    deps:
-    - path: data/processed/X_train.txt
-      md5: 5600a8ef51746090db569341bdda5449
-      size: 42076145
-    - path: models/model.joblib
-      md5: 1ec493e6fe7bb3a2156ee0cf8cf10c63
-      size: 38006406
-    - path: predict.py
-      md5: ff7f799a9750763c2a5424193f9b2be0
-      size: 1167
-    outs:
-    - path: data/predictions/y_train_pred.txt
-      md5: da5346f93e3780c01319a0e40e25ddca
-      size: 64000
+      md5: 5b08eef79bba9c0ca024c48fc7455219
+      size: 111478510
   predict@test:
     cmd: python3 predict.py --model-path models/model.joblib --data-path data/processed/X_test.txt
       --pred-path data/predictions/y_test_pred.txt
     deps:
     - path: data/processed/X_test.txt
-      md5: bc95152a49f8d48db2c8e4af85930097
-      size: 10384978
+      md5: b73b36a8cc7253bf26465b9652cd9d72
+      size: 10595217
     - path: models/model.joblib
-      md5: 1ec493e6fe7bb3a2156ee0cf8cf10c63
-      size: 38006406
+      md5: 5b08eef79bba9c0ca024c48fc7455219
+      size: 111478510
     - path: predict.py
       md5: ff7f799a9750763c2a5424193f9b2be0
       size: 1167
     outs:
     - path: data/predictions/y_test_pred.txt
-      md5: c07cf0be01f95332925cc6a68a46cbf2
+      md5: baf9c0fdb03ee66891eb5a85388da9e4
       size: 16000
-  evaluate@train:
-    cmd: python3 evaluate.py --pred-path data/predictions/y_train_pred.txt --true-path
-      data/processed/y_train.txt --metrics-path results/train_metrics.json
-    deps:
-    - path: data/predictions/y_train_pred.txt
-      md5: da5346f93e3780c01319a0e40e25ddca
-      size: 64000
-    - path: data/processed/y_train.txt
-      md5: 66cf99fd38029bdfeb958eec36d00838
-      size: 64000
-    - path: evaluate.py
-      md5: 05245a104b6f93b2e4d831dafa2bc907
-      size: 1128
-    outs:
-    - path: results/train_metrics.json
-      md5: 98bfc3adcbe22ceacfcc1dd59cab5a15
-      size: 688
   evaluate@test:
     cmd: python3 evaluate.py --pred-path data/predictions/y_test_pred.txt --true-path
       data/processed/y_test.txt --metrics-path results/test_metrics.json
     deps:
     - path: data/predictions/y_test_pred.txt
-      md5: c07cf0be01f95332925cc6a68a46cbf2
+      md5: baf9c0fdb03ee66891eb5a85388da9e4
       size: 16000
     - path: data/processed/y_test.txt
-      md5: 6da9fd7aa437a2194ea353fa12f2d4e7
+      md5: 0fef078ce1e847bde2a6af1a5bda4f1c
       size: 16000
     - path: evaluate.py
       md5: 05245a104b6f93b2e4d831dafa2bc907
       size: 1128
     outs:
     - path: results/test_metrics.json
-      md5: f26bd9317c544a4ce0e8d72a5b21acf1
-      size: 675
+      md5: 79d731e1fd4b6da8c2420aaadc2202b7
+      size: 681
+  predict@train:
+    cmd: python3 predict.py --model-path models/model.joblib --data-path data/processed/X_train.txt
+      --pred-path data/predictions/y_train_pred.txt
+    deps:
+    - path: data/processed/X_train.txt
+      md5: ce74ba9038f6f3a842c83b2d47cfe1e0
+      size: 41865906
+    - path: models/model.joblib
+      md5: 5b08eef79bba9c0ca024c48fc7455219
+      size: 111478510
+    - path: predict.py
+      md5: ff7f799a9750763c2a5424193f9b2be0
+      size: 1167
+    outs:
+    - path: data/predictions/y_train_pred.txt
+      md5: 0bc883f8cd2921bb6d169552ff8a10c2
+      size: 64000
+  evaluate@train:
+    cmd: python3 evaluate.py --pred-path data/predictions/y_train_pred.txt --true-path
+      data/processed/y_train.txt --metrics-path results/train_metrics.json
+    deps:
+    - path: data/predictions/y_train_pred.txt
+      md5: 0bc883f8cd2921bb6d169552ff8a10c2
+      size: 64000
+    - path: data/processed/y_train.txt
+      md5: 268cd55a39fe327418f03e051a0b023f
+      size: 64000
+    - path: evaluate.py
+      md5: 05245a104b6f93b2e4d831dafa2bc907
+      size: 1128
+    outs:
+    - path: results/train_metrics.json
+      md5: 8237b66f252acf691ccb08bcf2f4c87e
+      size: 685
+  confusion@train:
+    cmd: python3 concatenate.py --true-labels data/processed/y_train.txt --predicted-labels
+      data/predictions/y_train_pred.txt --output-path data/predictions/train_confusion.csv
+    deps:
+    - path: concatenate.py
+      md5: f8e74b4cecb63494a7001f3eb5b7f7a4
+      size: 896
+    - path: data/predictions/y_train_pred.txt
+      md5: 0bc883f8cd2921bb6d169552ff8a10c2
+      size: 64000
+    - path: data/processed/y_train.txt
+      md5: 268cd55a39fe327418f03e051a0b023f
+      size: 64000
+    outs:
+    - path: data/predictions/train_confusion.csv
+      md5: 6db59067def7da88f2bfe60d7d36261b
+      size: 128010
+  confusion@test:
+    cmd: python3 concatenate.py --true-labels data/processed/y_test.txt --predicted-labels
+      data/predictions/y_test_pred.txt --output-path data/predictions/test_confusion.csv
+    deps:
+    - path: concatenate.py
+      md5: f8e74b4cecb63494a7001f3eb5b7f7a4
+      size: 896
+    - path: data/predictions/y_test_pred.txt
+      md5: baf9c0fdb03ee66891eb5a85388da9e4
+      size: 16000
+    - path: data/processed/y_test.txt
+      md5: 0fef078ce1e847bde2a6af1a5bda4f1c
+      size: 16000
+    outs:
+    - path: data/predictions/test_confusion.csv
+      md5: a4a810759220b8b2a5a95f46fded6732
+      size: 32010
+  histogram:
+    cmd: python3 review_lengths.py --input-path data/IMDB_movie_ratings_sentiment.csv
+      --output-path data/processed/IMDB_review_lengths.csv
+    deps:
+    - path: data/IMDB_movie_ratings_sentiment.csv
+      md5: 6efb5da809df99140316dd09dbb42078
+      size: 52724248
+    - path: review_lengths.py
+      md5: a7ef558d32ed8761f81d8fb806f1497f
+      size: 769
+    outs:
+    - path: data/processed/IMDB_review_lengths.csv
+      md5: e906659fa9d46aa331b17b41344466fd
+      size: 179466

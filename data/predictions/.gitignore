@@ -1,2 +1,4 @@
 /y_test_pred.txt
 /y_train_pred.txt
+/test_confusion.csv
+/train_confusion.csv

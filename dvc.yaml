@@ -65,3 +65,39 @@ stages:
       - evaluate.py
       metrics:
       - results/${item}_metrics.json
+  confusion: 
+    foreach:
+      - train
+      - test
+    do:
+      cmd: >-
+        python3 concatenate.py
+        --true-labels data/processed/y_${item}.txt
+        --predicted-labels data/predictions/y_${item}_pred.txt
+        --output-path data/predictions/${item}_confusion.csv
+      deps:
+      - data/processed/y_${item}.txt 
+      - data/predictions/y_${item}_pred.txt
+      - concatenate.py
+      plots:
+        - data/predictions/${item}_confusion.csv:
+            x: "true"
+            y: "pred"
+            template: confusion
+            x_label: "True class"
+            y_label: "Predicted class"
+            title: "${item} set confusion matrix"
+  histogram: 
+    cmd: >-
+      python3 review_lengths.py
+      --input-path data/IMDB_movie_ratings_sentiment.csv
+      --output-path data/processed/IMDB_review_lengths.csv
+    deps:
+      - review_lengths.py
+      - data/IMDB_movie_ratings_sentiment.csv
+    plots:
+      - data/processed/IMDB_review_lengths.csv:
+          template: histogram
+          x: "length"
+          x_label: "Review lengths"
+          title: "Histogram of review lengths"
