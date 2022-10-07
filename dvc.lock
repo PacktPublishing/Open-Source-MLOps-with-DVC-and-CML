@@ -29,7 +29,7 @@ stages:
   train:
     cmd: python3 train_sklearn.py --split-data-path data/processed --model-path models/model.joblib
       --metrics-path results/metrics.json --min-df 5 --max-df 0.5 --max-ngrams 3 --stopwords
-      english --loss hinge --learning-rate 0.0001
+      english --loss hinge --learning-rate 1e-05
     deps:
     - path: data/processed/X_test.txt
       md5: b73b36a8cc7253bf26465b9652cd9d72
@@ -54,10 +54,10 @@ stages:
           max_ngrams: 3
           stopwords: english
           loss: hinge
-          learning_rate: 0.0001
+          learning_rate: 1e-05
     outs:
     - path: models/model.joblib
-      md5: 5b08eef79bba9c0ca024c48fc7455219
+      md5: a6dcac6be7bc559a2c4909971e5dd946
       size: 111478510
   predict@test:
     cmd: python3 predict.py --model-path models/model.joblib --data-path data/processed/X_test.txt
@@ -67,21 +67,21 @@ stages:
       md5: b73b36a8cc7253bf26465b9652cd9d72
       size: 10595217
     - path: models/model.joblib
-      md5: 5b08eef79bba9c0ca024c48fc7455219
+      md5: a6dcac6be7bc559a2c4909971e5dd946
       size: 111478510
     - path: predict.py
       md5: ff7f799a9750763c2a5424193f9b2be0
       size: 1167
     outs:
     - path: data/predictions/y_test_pred.txt
-      md5: baf9c0fdb03ee66891eb5a85388da9e4
+      md5: 680a9ebbf93b44f82e627596f89090a6
       size: 16000
   evaluate@test:
     cmd: python3 evaluate.py --pred-path data/predictions/y_test_pred.txt --true-path
       data/processed/y_test.txt --metrics-path results/test_metrics.json
     deps:
     - path: data/predictions/y_test_pred.txt
-      md5: baf9c0fdb03ee66891eb5a85388da9e4
+      md5: 680a9ebbf93b44f82e627596f89090a6
       size: 16000
     - path: data/processed/y_test.txt
       md5: 0fef078ce1e847bde2a6af1a5bda4f1c
@@ -91,8 +91,8 @@ stages:
       size: 1128
     outs:
     - path: results/test_metrics.json
-      md5: 79d731e1fd4b6da8c2420aaadc2202b7
-      size: 681
+      md5: 97928692a300fed8f3615eb334a508a2
+      size: 672
   predict@train:
     cmd: python3 predict.py --model-path models/model.joblib --data-path data/processed/X_train.txt
       --pred-path data/predictions/y_train_pred.txt
@@ -101,21 +101,21 @@ stages:
       md5: ce74ba9038f6f3a842c83b2d47cfe1e0
       size: 41865906
     - path: models/model.joblib
-      md5: 5b08eef79bba9c0ca024c48fc7455219
+      md5: a6dcac6be7bc559a2c4909971e5dd946
       size: 111478510
     - path: predict.py
       md5: ff7f799a9750763c2a5424193f9b2be0
       size: 1167
     outs:
     - path: data/predictions/y_train_pred.txt
-      md5: 0bc883f8cd2921bb6d169552ff8a10c2
+      md5: 8f1a1621d31502feb1075090d364b0d7
       size: 64000
   evaluate@train:
     cmd: python3 evaluate.py --pred-path data/predictions/y_train_pred.txt --true-path
       data/processed/y_train.txt --metrics-path results/train_metrics.json
     deps:
     - path: data/predictions/y_train_pred.txt
-      md5: 0bc883f8cd2921bb6d169552ff8a10c2
+      md5: 8f1a1621d31502feb1075090d364b0d7
       size: 64000
     - path: data/processed/y_train.txt
       md5: 268cd55a39fe327418f03e051a0b023f
@@ -125,8 +125,8 @@ stages:
       size: 1128
     outs:
     - path: results/train_metrics.json
-      md5: 8237b66f252acf691ccb08bcf2f4c87e
-      size: 685
+      md5: 86e8734b725cd621177a25df942bdef9
+      size: 688
   confusion@train:
     cmd: python3 concatenate.py --true-labels data/processed/y_train.txt --predicted-labels
       data/predictions/y_train_pred.txt --output-path data/predictions/train_confusion.csv
@@ -135,14 +135,14 @@ stages:
       md5: f8e74b4cecb63494a7001f3eb5b7f7a4
       size: 896
     - path: data/predictions/y_train_pred.txt
-      md5: 0bc883f8cd2921bb6d169552ff8a10c2
+      md5: 8f1a1621d31502feb1075090d364b0d7
       size: 64000
     - path: data/processed/y_train.txt
       md5: 268cd55a39fe327418f03e051a0b023f
       size: 64000
     outs:
     - path: data/predictions/train_confusion.csv
-      md5: 6db59067def7da88f2bfe60d7d36261b
+      md5: fa41cdf21429805efcb573968922c0de
       size: 128010
   confusion@test:
     cmd: python3 concatenate.py --true-labels data/processed/y_test.txt --predicted-labels
@@ -152,14 +152,14 @@ stages:
       md5: f8e74b4cecb63494a7001f3eb5b7f7a4
       size: 896
     - path: data/predictions/y_test_pred.txt
-      md5: baf9c0fdb03ee66891eb5a85388da9e4
+      md5: 680a9ebbf93b44f82e627596f89090a6
       size: 16000
     - path: data/processed/y_test.txt
       md5: 0fef078ce1e847bde2a6af1a5bda4f1c
       size: 16000
     outs:
     - path: data/predictions/test_confusion.csv
-      md5: a4a810759220b8b2a5a95f46fded6732
+      md5: 65af24d30941d26e28cd8d7a26a3ee20
       size: 32010
   histogram:
     cmd: python3 review_lengths.py --input-path data/IMDB_movie_ratings_sentiment.csv
