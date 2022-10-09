@@ -1,0 +1,3 @@
+awscli
+dvc[s3]
+sklearn
