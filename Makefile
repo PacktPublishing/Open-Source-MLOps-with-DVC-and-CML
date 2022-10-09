@@ -12,6 +12,7 @@ VIRTUALENV := venv
 # Set the default location for the virtualenv to be stored
 # Create the virtualenv by installing the requirements and test requirements
 
+.PHONY: virtualenv
 $(VIRTUALENV)/.installed: requirements.txt
 	@if [ -d $(VIRTUALENV) ]; then rm -rf $(VIRTUALENV); fi
 	@mkdir -p $(VIRTUALENV)
@@ -51,7 +52,7 @@ clear-queue:
 
 .PHONY: clear-exps
 clear-exps:
-	dvc exp remove --rev eb02b68 --num 1
+	dvc exp remove --rev HEAD --num 1
 
 .PHONY: clear
 clear: clear-queue clear-exps
@@ -59,10 +60,10 @@ clear: clear-queue clear-exps
 .PHONY: queue
 queue:
 	dvc exp run --queue \
-		--set-param train.learning_rate=0.0001 \
-		--set-param train.max_df=0.25,0.5,0.75 \
-		--set-param train.min_df=0.05,0.1,0.15 \
-		--set-param train.max_ngrams=2,3,4 
+		--set-param train.learning_rate=0.0001,0.001,0.001,0.00001
+		#--set-param train.max_df=0.25,0.5,0.75
+		#--set-param train.min_df=0.05,0.1,0.15 \
+		#--set-param train.max_ngrams=2,3,4 
 
 .PHONY: run
 run:
