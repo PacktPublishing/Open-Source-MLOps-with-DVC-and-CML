@@ -2,9 +2,9 @@ process:
   test_size: 0.4
 
 train:
-  min_df: 5
+  min_df: 500
   max_df: 0.5
   max_ngrams: 3
   stopwords: english
   loss: hinge
-  learning_rate: 0.001
+  learning_rate: 0.0001
