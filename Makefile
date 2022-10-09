@@ -38,16 +38,16 @@ update-requirements-txt:
 .PHONY: virtualenv
 virtualenv: $(VIRTUALENV)/.installed
 
-.PHONY: exp
-exp:
-	dvc exp show --drop "." --precision 3 --keep "(Experiment|.*weight.*f1.*|process\.test_size*)" \
+.PHONY: show
+show:
+	dvc exp show --drop "." --md --keep "(Experiment|.*weight.*f1.*|.*learning*|.*min_df*|.*max_ngrams*|State)" \
 		--no-pager --num 2 --sort-by "results/test_metrics.json:weighted avg.f1-score"
 	@ #cat exps.md
 	@ #dvc exp show --drop "." --keep ".*(Experiment|weighted avg.f1*|train*)" 
 	@ #dvc exp show --drop "." --keep "(Experiment|.*weighted avg.f1*|train\.*)" \
 
 .PHONY: clear-queue
-clear-queue:
+clear-queue: kill
 	dvc queue remove --all
 
 .PHONY: clear-exps
@@ -60,10 +60,9 @@ clear: clear-queue clear-exps
 .PHONY: queue
 queue:
 	dvc exp run --queue \
-		--set-param train.learning_rate=0.0001,0.001,0.001,0.00001
-		#--set-param train.max_df=0.25,0.5,0.75
-		#--set-param train.min_df=0.05,0.1,0.15 \
-		#--set-param train.max_ngrams=2,3,4 
+		--set-param train.learning_rate=0.0001,0.001 \
+		--set-param train.min_df=5,50,100,500 \
+		--set-param train.max_ngrams=2,3,4,5
 
 .PHONY: run
 run:
@@ -72,3 +71,7 @@ run:
 .PHONY: stop
 stop:
 	dvc queue stop
+
+.PHONY: kill
+kill:
+	dvc queue stop --kill
