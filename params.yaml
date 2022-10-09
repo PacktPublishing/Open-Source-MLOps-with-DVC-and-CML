@@ -4,7 +4,7 @@ process:
 train:
   min_df: 5
   max_df: 0.5
-  max_ngrams: 3
+  max_ngrams: 2
   stopwords: english
   loss: hinge
   learning_rate: 0.001
