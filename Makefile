@@ -36,3 +36,38 @@ update-requirements-txt:
 
 .PHONY: virtualenv
 virtualenv: $(VIRTUALENV)/.installed
+
+.PHONY: exp
+exp:
+	dvc exp show --drop "." --precision 3 --keep "(Experiment|.*weight.*f1.*|process\.test_size*)" \
+		--no-pager --num 2 --sort-by "results/test_metrics.json:weighted avg.f1-score"
+	@ #cat exps.md
+	@ #dvc exp show --drop "." --keep ".*(Experiment|weighted avg.f1*|train*)" 
+	@ #dvc exp show --drop "." --keep "(Experiment|.*weighted avg.f1*|train\.*)" \
+
+.PHONY: clear-queue
+clear-queue:
+	dvc queue remove --all
+
+.PHONY: clear-exps
+clear-exps:
+	dvc exp remove --rev eb02b68 --num 1
+
+.PHONY: clear
+clear: clear-queue clear-exps
+
+.PHONY: queue
+queue:
+	dvc exp run --queue \
+		--set-param train.learning_rate=0.0001 \
+		--set-param train.max_df=0.25,0.5,0.75 \
+		--set-param train.min_df=0.05,0.1,0.15 \
+		--set-param train.max_ngrams=2,3,4 
+
+.PHONY: run
+run:
+	dvc queue start --jobs 10
+
+.PHONY: stop
+stop:
+	dvc queue stop
