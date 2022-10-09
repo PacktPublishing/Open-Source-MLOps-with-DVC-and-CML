@@ -2,7 +2,7 @@ process:
   test_size: 0.4
 
 train:
-  min_df: 5
+  min_df: 50
   max_df: 0.5
   max_ngrams: 3
   stopwords: english
