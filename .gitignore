@@ -1,2 +1,5 @@
 /dvc_plots
 /venv
+.env
+.envrc
+__pycache__/
