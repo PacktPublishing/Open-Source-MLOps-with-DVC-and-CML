@@ -4,3 +4,5 @@ dvc[s3]
 sklearn
 typer
 joblib
+fastapi
+uvicorn
