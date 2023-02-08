@@ -3,7 +3,7 @@ data_path: data/IMDB_movie_ratings_sentiment.csv
 model_path: models/model.joblib
 
 process:
-  test_size: 0.2
+  test_size: 0.1
 
 train:
   min_df: 5

@@ -14,35 +14,35 @@ stages:
         data_path: data/IMDB_movie_ratings_sentiment.csv
         output_path: data/processed/
         process:
-          test_size: 0.2
+          test_size: 0.1
     outs:
     - path: data/processed/X_test.txt
-      md5: 8d4cafe7e5ca329b277ae2aa4032e25d
-      size: 10546448
+      md5: 8d8d4c0cf9fe50f69421f95658f99245
+      size: 5209391
     - path: data/processed/X_train.txt
-      md5: c926e6c5c9b9d27d44273f4bfe9ba83b
-      size: 41914675
+      md5: e26eb5b80dbb50309e6d751d1bd8d0ff
+      size: 47251732
     - path: data/processed/y_test.txt
-      md5: 5565f925e1c973291e2401ea0a0bc4c0
-      size: 16000
+      md5: 0d1363e3656efa2275cb92a2d0a5c6d2
+      size: 8000
     - path: data/processed/y_train.txt
-      md5: 32576abfcb71169c0630150d0c473596
-      size: 64000
+      md5: 7d68369771e0e8db1fc96f1568a93391
+      size: 72000
   train:
     cmd: python3 train_sklearn.py
     deps:
     - path: data/processed/X_test.txt
-      md5: 8d4cafe7e5ca329b277ae2aa4032e25d
-      size: 10546448
+      md5: 8d8d4c0cf9fe50f69421f95658f99245
+      size: 5209391
     - path: data/processed/X_train.txt
-      md5: c926e6c5c9b9d27d44273f4bfe9ba83b
-      size: 41914675
+      md5: e26eb5b80dbb50309e6d751d1bd8d0ff
+      size: 47251732
     - path: data/processed/y_test.txt
-      md5: 5565f925e1c973291e2401ea0a0bc4c0
-      size: 16000
+      md5: 0d1363e3656efa2275cb92a2d0a5c6d2
+      size: 8000
     - path: data/processed/y_train.txt
-      md5: 32576abfcb71169c0630150d0c473596
-      size: 64000
+      md5: 7d68369771e0e8db1fc96f1568a93391
+      size: 72000
     - path: train_sklearn.py
       md5: 5e054ee49ad2a95bf43d8c8ed2a650a5
       size: 2937
@@ -60,8 +60,8 @@ stages:
           metrics_path: results/metrics.json
     outs:
     - path: models/model.joblib
-      md5: e98a5889b057f3403a1b3e16d199f30d
-      size: 37892782
+      md5: b09b704e63c38a6a1ca6f436d37632b9
+      size: 41964286
     - path: results/metrics.json
-      md5: 1e6bfef9e26d7d81de3e962bb652f1d3
-      size: 19
+      md5: 43a932f10486c69ac13f6c4ef1f39743
+      size: 18
