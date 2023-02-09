@@ -29,24 +29,33 @@ stages:
     outs:
     - models/model.joblib
   predict:
-    cmd: >-
-      python3 predict.py
-      --data_path data/processed/X_test.txt
-      --pred_path data/predictions/y_test_pred.txt
-    deps:
-    - data/processed/X_test.txt
-    - predict.py
-    outs:
-    - data/predictions/y_test_pred.txt
+    foreach:
+      - train
+      - test
+    do:
+      cmd: >-
+        python3 predict.py
+        --data_path data/processed/X_${item}.txt
+        --pred_path data/predictions/y_${item}_pred.txt
+      deps:
+      - data/processed/X_${item}.txt
+      - models/model.joblib
+      - predict.py
+      outs:
+      - data/predictions/y_${item}_pred.txt
   evaluate:
-    cmd: >-
-      python3 evaluate.py
-      --pred_path data/predictions/y_test_pred.txt
-      --true_path data/processed/y_test.txt
-      --metrics_path results/metrics.json
-    deps:
-    - data/predictions/y_test_pred.txt
-    - data/processed/y_test.txt
-    - evaluate.py
-    metrics:
-    - results/metrics.json
+    foreach:
+      - train
+      - test
+    do:
+      cmd: >-
+        python3 evaluate.py
+        --pred_path data/predictions/y_${item}_pred.txt
+        --true_path data/processed/y_${item}.txt
+        --metrics_path results/${item}_metrics.json
+      deps:
+      - data/predictions/y_${item}_pred.txt
+      - data/processed/y_${item}.txt
+      - evaluate.py
+      metrics:
+      - results/${item}_metrics.json
