@@ -7,43 +7,61 @@ stages:
       md5: 6efb5da809df99140316dd09dbb42078
       size: 52724248
     - path: process_data.py
-      md5: fe498c9818527b62f0e89f312a0683bb
-      size: 1623
+      md5: 6e6b2bd6586ad2315164fc65b7f46241
+      size: 1770
+    params:
+      params.yaml:
+        data_path: data/IMDB_movie_ratings_sentiment.csv
+        output_path: data/processed/
+        process:
+          test_size: 0.2
     outs:
     - path: data/processed/X_test.txt
-      md5: 747e635c34d464e43cfc7d45b10eb111
-      size: 10547257
+      md5: 8d4cafe7e5ca329b277ae2aa4032e25d
+      size: 10546448
     - path: data/processed/X_train.txt
-      md5: 59bd2dbeaa44217066db6c7f16898155
-      size: 41913866
+      md5: c926e6c5c9b9d27d44273f4bfe9ba83b
+      size: 41914675
     - path: data/processed/y_test.txt
-      md5: 3d3265ecb72bdbee776b46ba6daa7efa
+      md5: 5565f925e1c973291e2401ea0a0bc4c0
       size: 16000
     - path: data/processed/y_train.txt
-      md5: d2b57ef592571b5d810fb99fa3d41f34
+      md5: 32576abfcb71169c0630150d0c473596
       size: 64000
   train:
     cmd: python3 train_sklearn.py
     deps:
     - path: data/processed/X_test.txt
-      md5: 747e635c34d464e43cfc7d45b10eb111
-      size: 10547257
+      md5: 8d4cafe7e5ca329b277ae2aa4032e25d
+      size: 10546448
     - path: data/processed/X_train.txt
-      md5: 59bd2dbeaa44217066db6c7f16898155
-      size: 41913866
+      md5: c926e6c5c9b9d27d44273f4bfe9ba83b
+      size: 41914675
     - path: data/processed/y_test.txt
-      md5: 3d3265ecb72bdbee776b46ba6daa7efa
+      md5: 5565f925e1c973291e2401ea0a0bc4c0
       size: 16000
     - path: data/processed/y_train.txt
-      md5: d2b57ef592571b5d810fb99fa3d41f34
+      md5: 32576abfcb71169c0630150d0c473596
       size: 64000
     - path: train_sklearn.py
-      md5: 861a998e60228d656e862817d5e33cbe
-      size: 2753
+      md5: 5e054ee49ad2a95bf43d8c8ed2a650a5
+      size: 2937
+    params:
+      params.yaml:
+        model_path: models/model.joblib
+        output_path: data/processed/
+        train:
+          min_df: 5
+          max_df: 0.5
+          max_ngrams: 2
+          stopwords: english
+          loss: hinge
+          learning_rate: 0.0001
+          metrics_path: results/metrics.json
     outs:
     - path: models/model.joblib
-      md5: 4779bb443094a6a2a769f0e304e45d3c
-      size: 1704839
+      md5: e98a5889b057f3403a1b3e16d199f30d
+      size: 37892782
     - path: results/metrics.json
-      md5: db2d7e2f65ef4163a1bf6d2abe174625
+      md5: 1e6bfef9e26d7d81de3e962bb652f1d3
       size: 19
