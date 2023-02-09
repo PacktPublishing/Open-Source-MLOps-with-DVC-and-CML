@@ -44,8 +44,8 @@ stages:
       md5: 7d68369771e0e8db1fc96f1568a93391
       size: 72000
     - path: train_sklearn.py
-      md5: 5e054ee49ad2a95bf43d8c8ed2a650a5
-      size: 2937
+      md5: f755f4fae5986b961816b7f37d6345c7
+      size: 2629
     params:
       params.yaml:
         model_path: models/model.joblib
@@ -57,11 +57,37 @@ stages:
           stopwords: english
           loss: hinge
           learning_rate: 0.0001
-          metrics_path: results/metrics.json
     outs:
     - path: models/model.joblib
-      md5: b09b704e63c38a6a1ca6f436d37632b9
+      md5: 19342efc0243fdf3872161fe0e858c5d
       size: 41964286
+  predict:
+    cmd: python3 predict.py --data_path data/processed/X_test.txt --pred_path data/predictions/y_test_pred.txt
+    deps:
+    - path: data/processed/X_test.txt
+      md5: 8d8d4c0cf9fe50f69421f95658f99245
+      size: 5209391
+    - path: predict.py
+      md5: afc402be955b4c7077e0f6131a42f0cf
+      size: 1250
+    outs:
+    - path: data/predictions/y_test_pred.txt
+      md5: 0404a6fb77c55c325bef091d165471a0
+      size: 8000
+  evaluate:
+    cmd: python3 evaluate.py --pred_path data/predictions/y_test_pred.txt --true_path
+      data/processed/y_test.txt --metrics_path results/metrics.json
+    deps:
+    - path: data/predictions/y_test_pred.txt
+      md5: 0404a6fb77c55c325bef091d165471a0
+      size: 8000
+    - path: data/processed/y_test.txt
+      md5: 0d1363e3656efa2275cb92a2d0a5c6d2
+      size: 8000
+    - path: evaluate.py
+      md5: e3114ddd8b71ca620cf2f459d668f03e
+      size: 1414
+    outs:
     - path: results/metrics.json
-      md5: 43a932f10486c69ac13f6c4ef1f39743
-      size: 18
+      md5: e70f5df8452a62d565dde9b87bfab6ba
+      size: 679

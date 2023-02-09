@@ -3,7 +3,6 @@ Simple machine learning model training script based on an example given here:
 https://medium.com/mantisnlp/mlops-with-sagemaker-44ffc2c1054a
 """
 
-import json
 import os
 
 import dvc.api
@@ -34,7 +33,6 @@ def load_data(split_data_path):
 def train(
     data: dict,
     model_path: str,
-    metrics_path: str,
     min_df: int,
     max_df: float,
     max_ngrams: int,
@@ -73,16 +71,7 @@ def train(
     )
 
     print("Training SGDClassifier")
-
     model.fit(data["X_train"], data["y_train"])
-
-    score = model.score(data["X_test"], data["y_test"])
-
-    print(f"Model score {score}")
-    print(f"Saving metrics to {metrics_path}")
-
-    with open(metrics_path, "w") as f:
-        json.dump({"score": score}, f)
 
     print(f"Saving model to {model_path}")
     joblib.dump(model, model_path)
@@ -93,7 +82,6 @@ if __name__ == "__main__":
     train(
         data=split_data,
         model_path=params["model_path"],
-        metrics_path=params["train"]["metrics_path"],
         min_df=params["train"]["min_df"],
         max_df=params["train"]["max_df"],
         max_ngrams=params["train"]["max_ngrams"],

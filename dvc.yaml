@@ -25,7 +25,28 @@ stages:
     - model_path
     - output_path
     - train
+    - output_path
     outs:
     - models/model.joblib
+  predict:
+    cmd: >-
+      python3 predict.py
+      --data_path data/processed/X_test.txt
+      --pred_path data/predictions/y_test_pred.txt
+    deps:
+    - data/processed/X_test.txt
+    - predict.py
+    outs:
+    - data/predictions/y_test_pred.txt
+  evaluate:
+    cmd: >-
+      python3 evaluate.py
+      --pred_path data/predictions/y_test_pred.txt
+      --true_path data/processed/y_test.txt
+      --metrics_path results/metrics.json
+    deps:
+    - data/predictions/y_test_pred.txt
+    - data/processed/y_test.txt
+    - evaluate.py
     metrics:
     - results/metrics.json
