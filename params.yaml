@@ -1,0 +1,17 @@
+output_path: data/processed/
+data_path: data/IMDB_movie_ratings_sentiment.csv
+model_path: models/model.joblib
+pred_path: data/prediction
+metrics_path: results/metrics.json
+
+process:
+  test_size: 0.1
+
+train:
+  min_df: 5
+  max_df: 0.5
+  max_ngrams: 2
+  stopwords: english
+  loss: hinge
+  learning_rate: 1e-4
+

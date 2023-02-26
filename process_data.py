@@ -1,4 +1,3 @@
-
 """
 Simple script to create train and test splits
 """
@@ -6,7 +5,12 @@ Simple script to create train and test splits
 import csv
 import os
 
+import dvc.api
 from sklearn.model_selection import train_test_split
+
+# Load params
+
+params = dvc.api.params_show()
 
 
 def prepare_data(data_path: str, test_size: float):
@@ -21,6 +25,7 @@ def prepare_data(data_path: str, test_size: float):
     print(f"Loading data from {data_path}")
     with open(data_path, encoding="utf-8-sig") as f:
         csvreader = csv.DictReader(f)
+
         for row in csvreader:
             data.append((row["text"], row["label"]))
     X, y = zip(*data)
@@ -35,11 +40,13 @@ def prepare_data(data_path: str, test_size: float):
 
     return X_train, X_test, y_train, y_test
 
+
 def save_data(output_path: str, **kwargs):
     """
     Saves train and test splits to disk
     """
     os.makedirs(output_path, exist_ok=True)
+
     for k, v in kwargs.items():
         output_file = os.path.join(output_path, f"{k}.txt")
         print(f"Saving {k} to {output_file}")
@@ -47,6 +54,17 @@ def save_data(output_path: str, **kwargs):
             for item in v:
                 f.write(item + "\n")
 
+
 if __name__ == "__main__":
-    X_train, X_test, y_train, y_test = prepare_data(data_path="data/IMDB_movie_ratings_sentiment.csv", test_size=0.2)
-    save_data(output_path="data/processed/", X_train=X_train, X_test=X_test, y_train=y_train, y_test=y_test)
+    X_train, X_test, y_train, y_test = prepare_data(
+        data_path=params["data_path"],
+        test_size=params["process"]["test_size"],
+    )
+
+    save_data(
+        output_path=params["output_path"],
+        X_train=X_train,
+        X_test=X_test,
+        y_train=y_train,
+        y_test=y_test,
+    )
